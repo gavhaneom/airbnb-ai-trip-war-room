@@ -1,0 +1,22 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: trip-war-room-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: trip_war_room
+      MYSQL_USER: tripuser
+      MYSQL_PASSWORD: trip_password_change_me
+      MYSQL_ROOT_PASSWORD: root_password_change_me
+    ports:
+      - "3307:3306"
+    volumes:
+      - trip_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot_password_change_me"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  trip_mysql_data:
